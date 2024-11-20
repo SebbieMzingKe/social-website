@@ -52,6 +52,9 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 
+
+
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET')
 
@@ -70,6 +73,14 @@ SOCIAL_AUTH_PIPELINE = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+ALLOWED_HOSTS = [
+    'sebbie.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -86,6 +97,13 @@ AUTHENTICATION_BACKENDS = [
     'account.authentication.EmailAuthBackend',
     'social_core.backends.google.GoogleOAuth2',
 ]
+
+
+# If you there's a MIME type error
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type('application/javascript', '.js', True)
+    mimetypes.add_type('text/css', '.css', True)
 
 
 ROOT_URLCONF = 'bookmarks.urls'
