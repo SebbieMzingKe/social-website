@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'images.apps.ImagesConfig',
+    # 'easy_thumbnails',
 ]
 
 MEDIA_URL = 'media/'
@@ -100,10 +101,10 @@ AUTHENTICATION_BACKENDS = [
 
 
 # If you there's a MIME type error
-if DEBUG:
-    import mimetypes
-    mimetypes.add_type('application/javascript', '.js', True)
-    mimetypes.add_type('text/css', '.css', True)
+# if DEBUG:
+#     import mimetypes
+#     mimetypes.add_type('application/javascript', '.js', True)
+#     mimetypes.add_type('text/css', '.css', True)
 
 
 ROOT_URLCONF = 'bookmarks.urls'
@@ -173,6 +174,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

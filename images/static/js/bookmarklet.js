@@ -12,7 +12,7 @@ link.type = 'text/css';
 link.href = styleUrl + '?r=' + Math.floor(Math.random() * 9999999999999999)
 
 // load html 
-var body = document.getElementsByTagName
+var body = document.getElementsByTagName('body')[0];
 boxHtml = `
     <div id = "bookmarklet">
         <a href = "#" id = "close">&times;</a>
@@ -39,7 +39,7 @@ function bookmarkletLaunch() {
                 });
 
     // find images in the DOM with the minimum dimensions
-    images = document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg", img[src$=".png"]]');
+    images = document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg"], img[src$=".png"]');
     images.forEach(image => {
         if(image.naturalWidth >= minWidth && image.naturalHeight >= minHeight)
         {
