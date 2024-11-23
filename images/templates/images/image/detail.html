@@ -9,21 +9,30 @@
     <h1>{{ image.title }}</h1>
     <!-- <img src="{{ image.image.url }}" class="image-detail"> -->
      {% load thumbnail %}
-     <a href="{{ image.image.url }}">
+     {% if imageimage %}
+     <a href="{{ image_url }}">
         <img src="{% thumbnail image.image 300x0 %}" class="image-detail">
      </a>
+
+     {% else %}
+     <p>No image available for this item</p>
+     {% endif %}
+
     
-    {% with total_likes = image.users_like.count users_like = image.users_like_all %}
+    {% with total_likes=image.users_like.count users_like=image.users_like.all %}
     <div class="image-info">
         <div>
             <span class="count">
                 <span class = "total">{{ total_likes }}</span>
-                {{ total_likes }} like{{ total_likes|pluralize }}
+                like{{ total_likes|pluralize }}
             </span>
-            <a href = "#" data-id = "{{ image.id }}" data-action = "{{ if request.user. in users_like }}un{% endif %}like" class = "like button">
+            <a href="#" 
+            data-id = "{{ image.id }}" 
+            data-action = "{% if user_has_liked %}unlike{% else %}like{% endif %}" 
+            class = "like button">
             
                 
-                {% if request.user not in users_like %}
+                {% if user_has_liked %}
                 Like
                 {%else%}
                 Unlike
@@ -52,7 +61,7 @@
         
     {% endwith %}
 
-    {% domready %}
+    {% block domready %}
 
     const url = '{% url "images:like" %}';
     var options = {
@@ -67,7 +76,7 @@
         var likeButton = this;
 
         <!-- request body -->
-         var formData = newFormData();
+         var formData = new FormData();
          formData.append('id', likeButton.dataset.id);
          formData.append('action', likeButton.dataset.action);
          options['body'] = formData;
@@ -78,7 +87,7 @@
           .then(data => {
             if (data['status'] === 'ok')
             {
-                var previousAction = <likeButton class="dataset action">
+                var previousAction = likeButton.dataset.action;
                     <!-- toggle buttton text and data-action -->
 
                     var action = previousAction === 'like' ? 'unlike': 'like';
@@ -87,7 +96,7 @@
 
                     <!-- update like count -->
                      var likeCount = document.querySelector('span.count .total');
-                     vr totalLikes = parseInt(likeCount.innerHTML);
+                     var totalLikes = parseInt(likeCount.innerHTML);
                      likeCount.innerHTML = previousAction === 'like' ? totalLikes + 1 : totalLikes - 1;
                 </likeButton>
             }
@@ -95,7 +104,7 @@
             });
        
         
-
-{% endblock content %}
+            {% endblock %}
+{% endblock %}
     
     

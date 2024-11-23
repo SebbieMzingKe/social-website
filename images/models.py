@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
@@ -35,6 +36,10 @@ class Image(models.Model):
         return reverse(
             'images:detail', args = [self.id, self.slug]
         )
+    
+    def clean(self):
+        if not self.image:
+            raise ValidationError("Please upload an image file.")
 
     class Meta:
         indexes = [
