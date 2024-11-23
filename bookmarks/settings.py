@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from django.urls import reverse_lazy
+
 from decouple import config
 from pathlib import Path
 
@@ -25,6 +27,7 @@ SECRET_KEY = 'django-insecure-!t3jn(kez6ajkfb=kdxeaz3!0=*ulfao-f)@^#kbmv+xafx8nn
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# THUMBNAIL_DEBUG = True
 
 # ALLOWED_HOSTS = ['sebbie.com', 'localhost', '127.0.0.1']
 
@@ -32,6 +35,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    'actions.apps.ActionsConfig',
     'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,6 +83,11 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
+
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args = [u.username])
+}
 
 
 MIDDLEWARE = [
