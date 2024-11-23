@@ -39,7 +39,7 @@ class Image(models.Model):
     
     def clean(self):
         if not self.image:
-            raise ValidationError("Please upload an image file.")
+            raise ValidationError("")
 
     class Meta:
         indexes = [
