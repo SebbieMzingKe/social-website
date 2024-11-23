@@ -98,6 +98,6 @@ def image_list(request):
         'images/image/list.html',
         {
             'section':'images',
-            'images': imagesis
+            'images': images
         }
     )
