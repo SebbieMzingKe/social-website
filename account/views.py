@@ -1,3 +1,5 @@
+from actions.models import Action
+from actions.utils import create_action
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model, authenticate, login
 from django.http import HttpResponse, JsonResponse
@@ -45,11 +47,26 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
+
+    # display all actions by default
+    actions = Action.objects.exclude(user = request.user)
+    following_ids = request.user.following.values_list(
+        'id', flat = True
+    )
+
+    if following_ids:
+
+        # if user is following others, retrieve only their actions
+        actions = actions.filter(user_id__in = following_ids)
+    actions = actions.select_related(
+        'user', 'user__profile'
+    ).prefetch_related('target')[:10]
     return render(
         request,
         'account/dashboard.html',
         {
-            'section': 'dashboard'
+            'section': 'dashboard',
+            'actions': actions,
         }
     )
 
@@ -70,6 +87,7 @@ def register(request):
 
             # user profile creation
             Profile.objects.create(user = new_user)
+            create_action(new_user, 'has created an account')
 
             return render(
                 request,
@@ -168,6 +186,7 @@ def user_folow(request):
                     user_from = request.user,
                     user_to = user
                 )
+                create_action(request.user, 'is following', user)
             else:
                 Contact.objects.filter(
                     user_from = request.user,

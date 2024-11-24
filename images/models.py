@@ -27,6 +27,8 @@ class Image(models.Model):
         blank = True
     )
 
+    total_likes = models.PositiveIntegerField(default = 0)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -43,7 +45,8 @@ class Image(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields = ['-created'])
+            models.Index(fields = ['-created']),
+            models.Index(fields = ['-total_likes']),
             
         ]
         ordering = ['-created']
