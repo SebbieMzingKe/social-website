@@ -25,6 +25,10 @@
                 <span class = "total">{{ total_likes }}</span>
                 like{{ total_likes|pluralize }}
             </span>
+
+            <span class="count">
+                {{ total_views }} view{{ total_views|pluralize }}
+            </span>
             <a href="#" 
             data-id = "{{ image.id }}" 
             data-action = "{% if user_has_liked %}unlike{% else %}like{% endif %}" 
