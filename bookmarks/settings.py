@@ -27,10 +27,12 @@ SECRET_KEY = 'django-insecure-!t3jn(kez6ajkfb=kdxeaz3!0=*ulfao-f)@^#kbmv+xafx8nn
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# THUMBNAIL_DEBUG = True
 
-# ALLOWED_HOSTS = ['sebbie.com', 'localhost', '127.0.0.1']
 
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type('application/javascript', '.js', True)
+    mimetypes.add_type('text/css', '.css', True)
 
 # Application definition
 
@@ -47,6 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'images.apps.ImagesConfig',
     'easy_thumbnails',
+    # 'sorl.thumbnail',
+    'debug_toolbar',
 ]
 
 MEDIA_URL = 'media/'
@@ -55,6 +59,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
 
 
 
@@ -91,6 +96,7 @@ ABSOLUTE_URL_OVERRIDES = {
 
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -188,3 +194,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

@@ -14,7 +14,7 @@
 {% for user in users %}
 <div class="user">
     <a href="{{ user.get_absolute_url }}">
-        <img src="{% thumbnail user.profile.photo '180 180'%}" alt="">
+        <img src="{% thumbnail user.profile.photo '180x180'%}" alt="">
             </a>
             <div class="info">
                 <a href="{{ user.get_absolute_url }}">

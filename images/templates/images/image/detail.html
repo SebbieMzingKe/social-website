@@ -7,11 +7,10 @@
 {% block content %} 
 
     <h1>{{ image.title }}</h1>
-    <!-- <img src="{{ image.image.url }}" class="image-detail"> -->
      {% load thumbnail %}
-     {% if image.image %}
+     {% if image %}
      <a href="{{ image_url }}">
-        <img src="{% thumbnail image.image 300x0 %}" class="image-detail">
+        <img src="{{  image.url }}" class="image-detail">
      </a>
 
      {% else %}
@@ -60,10 +59,10 @@
     </div>
         
     {% endwith %}
+   
 
-    {% block domready %}
-
-    const url = '{% url "images:like" %}';
+    <script>
+        const url = '{% url "images:like" %}';
     var options = {
         method: 'POST',
         headers: {'X-CSRFToken': csrf_token},
@@ -75,36 +74,32 @@
         e.preventDefault();
         var likeButton = this;
 
-        <!-- request body -->
+
          var formData = new FormData();
          formData.append('id', likeButton.dataset.id);
          formData.append('action', likeButton.dataset.action);
          options['body'] = formData;
 
-         <!-- send HTTP request -->
           fetch(url, options)
           .then(response => response.json())
           .then(data => {
             if (data['status'] === 'ok')
             {
                 var previousAction = likeButton.dataset.action;
-                    <!-- toggle buttton text and data-action -->
-
                     var action = previousAction === 'like' ? 'unlike': 'like';
                     likeButton.dataset.action = action;
                     likeButton.innerHTML = action;
 
-                    <!-- update like count -->
                      var likeCount = document.querySelector('span.count .total');
                      var totalLikes = parseInt(likeCount.innerHTML);
                      likeCount.innerHTML = previousAction === 'like' ? totalLikes + 1 : totalLikes - 1;
-                </likeButton>
+            
             }
           })
             });
+    </script>
        
-        
-            {% endblock %}
+            
 {% endblock %}
     
     
