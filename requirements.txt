@@ -17,3 +17,8 @@ sqlparse==0.5.1
 typing-extensions==4.12.2
 urllib3==2.2.3
 werkzeug==3.0.2
+wheel
+social-auth-app-django==5.4.0
+easy-thumbnails==2.8.5
+redis==5.0.4
+django-debug-toolbar==4.3.0

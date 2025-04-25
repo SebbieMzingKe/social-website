@@ -4,5 +4,5 @@ __pycache__
 *.pot
 .env
 env
-cert.crt
-cert.key
+*.crt
+*.key
